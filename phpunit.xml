@@ -4,6 +4,7 @@
             <file>tests/UserTest.php</file>
             <file>tests/GiftTest.php</file>
             <file>tests/GiftTransactionTest.php</file>
+            <file>tests/ScoreboardTest.php</file>
         </testsuite>
     </testsuites>
 </phpunit>
