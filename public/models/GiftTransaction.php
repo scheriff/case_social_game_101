@@ -62,7 +62,12 @@ class GiftTransaction extends BaseDBModel
     public static function isDailyGiftSent(User $sender, User $receiver)
     {
         $params = [$sender->id, $receiver->id];
-        $sql = sprintf('select 1 from %s where sender_id = ? and receiver_id = ? and created_at >= NOW() - INTERVAL %s LIMIT 1', self::tableName(), self::GIFT_SEND_COOLDOWN_DURATION);
+        $sql = sprintf('select 1 from %s where sender_id = ? and receiver_id = ? and created_at >= NOW() - INTERVAL %s', self::tableName(), self::GIFT_SEND_COOLDOWN_DURATION);
+        if(!is_null($sender->daily_limit_reset_at)) {
+            $sql .= ' and created_at > ?';
+            $params[] = $sender->daily_limit_reset_at;
+        }
+        $sql .= ' order by created_at desc limit 1';
         $db = new DbConnection();
         $rows = $db->queryRaw($sql, $params);
 

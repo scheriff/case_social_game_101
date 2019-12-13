@@ -11,6 +11,13 @@ class ScoreboardTest extends TestCase
         $cache->client->del([Scoreboard::CACHE_KEY]);
     }
 
+    public static function tearDownAfterClass(): void
+    {
+        $cache = new Cache();
+        $cache->client->del([Scoreboard::CACHE_KEY]);
+        parent::tearDownAfterClass();
+    }
+
     public function scoreDataProvider()
     {
         return [
