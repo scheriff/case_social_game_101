@@ -18,5 +18,7 @@ other and claim gifts that other users sent.
 | Logs         | `log/`                  |
 
 ## Optimization & Cache Scenarios
-- For social scoreboard, use Redis key-value store with sorted sets. Utilize ZADD command with score values
+- For social scoreboard, use Redis key-value store with sorted sets. Utilize ZINCRBY command with score values
 - Check if User-A can send a gift to User-B: Set user-id-1:user-id-2 with 24 hour expiration duration. Check this key instead of DB
+- PHP session handler can be used as memcached or redis
+- Members can be stored in Redis set with SADD command
