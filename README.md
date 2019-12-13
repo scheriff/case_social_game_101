@@ -3,7 +3,7 @@ Demonstrating of a social game where users of the game are able to send gifts to
 other and claim gifts that other users sent.
 
 ## Installation with Docker
-- Docker setup forked from https://github.com/atillay/docker-lemp
+- Docker setup forked from https://github.com/atillay/docker-lemp and extended for my purposes
 - Install and launch Docker  
 - `cp .env.dist .env`  
 - `docker-compose up -d`
