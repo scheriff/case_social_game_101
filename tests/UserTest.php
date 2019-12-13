@@ -34,7 +34,6 @@ class UserTest extends TestCase
         $user->setPassword($password);
         $user->save();
         $this->assertSame($id, $user->id);
-        return $user->password_hash;
     }
 
     public function testCheckPassword()
