@@ -15,6 +15,11 @@ class Scoreboard
 
     const CACHE_KEY = 'weekly_scoreboard';
 
+    public static function getCacheKey()
+    {
+        //produce weekly cache key to store scoreboard ex: 1950 or 2001
+        return self::CACHE_KEY. date('yW', time());
+    }
     public static function getScoreForAction($action)
     {
         switch ($action) {
@@ -38,19 +43,19 @@ class Scoreboard
         $score = self::getScoreForAction($action);
         if($score != 0) {
             $cache = new Cache();
-            $cache->client->zincrby(self::CACHE_KEY, $score, $user->username);
+            $cache->client->zincrby(Scoreboard::getCacheKey(), $score, $user->username);
         }
     }
 
     public static function getUserScore(User $user)
     {
         $cache = new Cache();
-        return $cache->client->zscore(self::CACHE_KEY, $user->username);
+        return $cache->client->zscore(Scoreboard::getCacheKey(), $user->username);
     }
 
     public static function getTopUsers($limit, $offset)
     {
         $cache = new Cache();
-        return $cache->client->zrevrange(self::CACHE_KEY, $offset, $limit, ['WITHSCORES' => true]);
+        return $cache->client->zrevrange(Scoreboard::getCacheKey(), $offset, $limit, ['WITHSCORES' => true]);
     }
 }

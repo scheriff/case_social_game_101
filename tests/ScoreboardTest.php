@@ -8,13 +8,13 @@ class ScoreboardTest extends TestCase
     public static function setUpBeforeClass(): void
     {
         $cache = new Cache();
-        $cache->client->del([Scoreboard::CACHE_KEY]);
+        $cache->client->del([Scoreboard::getCacheKey()]);
     }
 
     public static function tearDownAfterClass(): void
     {
         $cache = new Cache();
-        $cache->client->del([Scoreboard::CACHE_KEY]);
+        $cache->client->del([Scoreboard::getCacheKey()]);
         parent::tearDownAfterClass();
     }
 
