@@ -1,0 +1,9 @@
+<phpunit bootstrap="vendor/autoload.php">
+    <testsuites>
+        <testsuite name="gifting">
+            <file>tests/UserTest.php</file>
+            <file>tests/GiftTest.php</file>
+            <file>tests/GiftTransactionTest.php</file>
+        </testsuite>
+    </testsuites>
+</phpunit>
