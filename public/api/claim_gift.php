@@ -18,7 +18,7 @@ if (!$giftTransaction) {
     Response::asJSON(['message' => 'Invalid Claim'], 400, 'Bad Request');
 } else {
     try {
-        $result = $giftTransaction->claim();
+        $result = $giftTransaction->claim($currentUser);
         if ($result) {
             Response::asJSON(['message' => 'Claimed!']);
         } else {

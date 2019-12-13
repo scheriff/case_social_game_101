@@ -60,7 +60,8 @@ class GiftTransactionTest extends TestCase
     public function testClaim()
     {
         $giftTransaction = GiftTransaction::findOne([]);
-        $this->assertTrue($giftTransaction->claim());
+        $user = User::findOne(['id' => $giftTransaction->receiver_id]);
+        $this->assertTrue($giftTransaction->claim($user));
     }
 
     public function testIsExpired()

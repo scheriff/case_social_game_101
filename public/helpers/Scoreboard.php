@@ -51,6 +51,6 @@ class Scoreboard
     public static function getTopUsers($limit, $offset)
     {
         $cache = new Cache();
-        return $cache->client->zrevrange(self::CACHE_KEY, $offset, $limit);
+        return $cache->client->zrevrange(self::CACHE_KEY, $offset, $limit, ['WITHSCORES' => true]);
     }
 }

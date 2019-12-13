@@ -2,6 +2,8 @@
 require_once 'helpers/Session.php';
 require_once 'models/Gift.php';
 require_once 'models/GiftTransaction.php';
+require_once 'helpers/Scoreboard.php';
+
 $session = new Session();
 $currentUser = $session->getUser();
 if (!$currentUser) {
@@ -28,8 +30,9 @@ $unclaimedGifts = GiftTransaction::findUnclaimedGiftsForUser($currentUser);
 <body>
 <div>
     <?php include '_navigation.php'; ?>
+    <div style="float:left; width: 40%">
     <?php if (count($unclaimedGifts) > 0) { ?>
-        <table style="width: 50%; margin-top:20px">
+        <table style="width: 100%; margin-top:20px">
             <tr>
                 <th colspan="3">My Unclaimed Gifts</th>
             </tr>
@@ -51,7 +54,7 @@ $unclaimedGifts = GiftTransaction::findUnclaimedGiftsForUser($currentUser);
         </table>
 
     <?php } ?>
-    <table style="width: 50%; margin-top:20px">
+    <table style="width: 100%; margin-top:20px">
         <tr>
             <th colspan="3">All Members</th>
         </tr>
@@ -81,6 +84,21 @@ $unclaimedGifts = GiftTransaction::findUnclaimedGiftsForUser($currentUser);
             </tr>
         <?php } ?>
     </table>
+    </div>
+    <div style="float:right; width: 40%">
+        <table style="width: 100%; margin-top:20px">
+            <tr>
+                <th>Username</th>
+                <th>Score</th>
+            </tr>
+            <?php foreach(Scoreboard::getTopUsers(20, 0) as $username => $score) { ?>
+                <tr>
+                    <th><?= $username ?></th>
+                    <th><?= $score ?></th>
+                </tr>
+            <?php }?>
+        </table>
+    </div>
 </div>
 </body>
 </html>

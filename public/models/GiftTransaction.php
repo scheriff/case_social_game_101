@@ -5,6 +5,7 @@ require_once 'BaseDBModel.php';
 require_once 'GiftTransactionLog.php';
 require_once 'User.php';
 require_once 'Gift.php';
+require_once __DIR__ . '/../helpers/Scoreboard.php';
 
 class GiftTransaction extends BaseDBModel
 {
@@ -37,6 +38,7 @@ class GiftTransaction extends BaseDBModel
             $giftTransaction->receiver_id = $receiver->id;
             $giftTransaction->status = self::STATUS_SENT;
             if($giftTransaction->save()) {
+                Scoreboard::updateUserScoreForAction($sender, Scoreboard::ACTION_SEND_GIFT);
                 GiftTransactionLog::saveChange($giftTransaction);
                 return true;
             } else {
@@ -76,10 +78,14 @@ class GiftTransaction extends BaseDBModel
         return false;
     }
 
-    public function claim()
+    public function claim(User $receiver)
     {
+        if($this->receiver_id != $receiver->id) {
+            throw new Exception('Gift does not belong to the user');
+        }
         if(!$this->isExpired()) {
             $this->updateStatus(self::STATUS_CLAIMED);
+            Scoreboard::updateUserScoreForAction($receiver, Scoreboard::ACTION_CLAIM_GIFT);
             return true;
         }
         $this->updateStatus(self::STATUS_EXPIRED);
@@ -109,7 +115,7 @@ class GiftTransaction extends BaseDBModel
         $gifts = self::findUnclaimedGiftsForUser($receiver);
         foreach($gifts as $gift) {
             /* @var $gift GiftTransaction */
-            $gift->claim();
+            $gift->claim($receiver);
         }
     }
 
